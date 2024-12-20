@@ -1,0 +1,23 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Visual Studio cache
+.vs/
+
+# Rider cache
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Unity specific
+.unitypackage
+*.pidb
+*.booproj
+*.svd
