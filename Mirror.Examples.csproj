@@ -143,8 +143,8 @@
     <Compile Include="Assets\Mirror\Examples\BenchmarkPrediction\RandomForce.cs" />
     <Compile Include="Assets\Mirror\Examples\Chat\Scripts\ChatUI.cs" />
     <Compile Include="Assets\Mirror\Examples\MultipleMatches\Scripts\MatchMessages.cs" />
-    <Compile Include="Assets\Mirror\Examples\BenchmarkPrediction\NetworkManagerPredictionBenchmark.cs" />
     <Compile Include="Assets\Mirror\Examples\Chat\Scripts\Player.cs" />
+    <Compile Include="Assets\Mirror\Examples\BenchmarkPrediction\NetworkManagerPredictionBenchmark.cs" />
     <Compile Include="Assets\Mirror\Examples\_Common\Controllers\PlayerController\PlayerControllerUnreliable.cs" />
     <Compile Include="Assets\Mirror\Examples\BenchmarkStinkySteak\Scripts\GUIGame.cs" />
     <Compile Include="Assets\Mirror\Examples\LagCompensation\Capture2D.cs" />

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Trap : Item
 {
-    public override void Interact()
+    public override void Interact(GameObject owner)
     {
         Debug.Log("设置陷阱...");
         Activate();

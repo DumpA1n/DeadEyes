@@ -134,9 +134,11 @@ MonoBehaviour:
   syncInterval: 0
   itemName: 
   itemType: 
+  isPickedUp: 0
+  colliderEnabled: 0
   playerTag: Player
   bulletPrefab: {fileID: 3173385274078915242, guid: 1acee9359faa9bc469b9f26ce42084c8, type: 3}
-  firePoint: {fileID: 2598002298496205454}
+  firePoint: {fileID: 7090490017515985100, guid: 4653396fc130b1f4ba401beac7d2bd38, type: 3}
   damage: 10
   range: 50
 --- !u!114 &7351531137427200687

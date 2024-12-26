@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : NetworkBehaviour
@@ -23,7 +24,8 @@ public class PlayerController : NetworkBehaviour
         m_Animator = GetComponentInChildren<Animator>();
         m_Camera = GetComponentInChildren<Camera>();
         m_WeaponHolder = transform.Find("WeaponHolder");
-        m_Animator.applyRootMotion = false;
+        if (m_Animator != null)
+            m_Animator.applyRootMotion = false;
         if (!isLocalPlayer) {
             GetComponentInChildren<Camera>().gameObject.SetActive(false);
         }
@@ -36,12 +38,6 @@ public class PlayerController : NetworkBehaviour
         HandleMovement();
         HandleJump();
         HandleRotation();
-
-        if (IsMoving()) {
-            m_Animator.SetBool("bWalk", true);
-        } else {
-            m_Animator.SetBool("bWalk", false);
-        }
     }
 
     private void HandleMovement()
@@ -51,15 +47,26 @@ public class PlayerController : NetworkBehaviour
         Vector3 moveDirection = transform.right * horizontal + transform.forward * vertical;
         ySpeed += m_Gravity * Time.deltaTime;
         moveDirection.y = ySpeed;
-        
+
         if (Input.GetKey(KeyCode.LeftShift)) {
             m_Acceleration = 5.0f;
-            m_Animator.SetBool("bRun", true);
         } else {
             m_Acceleration = 0.0f;
-            m_Animator.SetBool("bRun", false);
         }
-        
+
+        if (m_Animator != null) {
+            if (IsMoving()) {
+                m_Animator.SetBool("bWalk", true);
+                if (m_Acceleration != 0.0f) {
+                    m_Animator.SetBool("bRun", true);
+                } else {
+                    m_Animator.SetBool("bRun", false);
+                }
+            } else {
+                m_Animator.SetBool("bWalk", false);
+            }
+        }
+
         m_CharacterController.Move(moveDirection * (m_BaseMoveSpeed + m_Acceleration) * Time.deltaTime);
     }
 
@@ -79,17 +86,18 @@ public class PlayerController : NetworkBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        // 角色的左右旋转
+        // 角色左右旋转
         transform.Rotate(0f, mouseX * m_BaseRotationSpeed, 0f);
 
-        // 摄像机的上下旋转
+        // 摄像机上下旋转
         float rotationX = m_Camera.transform.localEulerAngles.x - mouseY * m_BaseRotationSpeed;
 
         if (rotationX > 180) rotationX -= 360;
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
 
         m_Camera.transform.localEulerAngles = new Vector3(rotationX, m_Camera.transform.localEulerAngles.y, 0f);
-        m_WeaponHolder.localEulerAngles = m_Camera.transform.localEulerAngles;
+        if (m_WeaponHolder != null)
+            m_WeaponHolder.localEulerAngles = m_Camera.transform.localEulerAngles;
     }
 
     private bool IsMoving()

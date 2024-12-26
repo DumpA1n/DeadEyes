@@ -13,59 +13,59 @@ public class Hunter : NetworkBehaviour
     public Trap trap;        // 陷阱
     private Weapon curWeapon; // 当前拾取的武器
     private Transform m_WeaponHolder;   // 武器存放的位置
-    public Image HealthBar;
+    private GameObject m_FloatingInfo;
+    private Canvas HealthBar;
+    private Image HealthBarFront;
 
     void Start()
     {
         m_WeaponHolder = transform.Find("WeaponHolder");
+        m_FloatingInfo = transform.Find("FloatingInfo").gameObject;
+        HealthBar = transform.Find("FloatingInfo/HealthBar").GetComponent<Canvas>();
+        HealthBarFront = transform.Find("FloatingInfo/HealthBar/HealthBarFront").GetComponent<Image>();
+        if (!isLocalPlayer) {
+            m_FloatingInfo.SetActive(false);
+        }
     }
 
     public void PickupWeapon(Weapon weapon)
     {
-        if (curWeapon == null)
-        {
-            curWeapon = weapon;
-            weapon.AttachToPlayer(m_WeaponHolder);
+        if (Input.GetKeyDown(KeyCode.E)) {
+            if (curWeapon == null) {
+                curWeapon = weapon;
+                weapon.AttachToPlayer(m_WeaponHolder);
 
-            // 向服务器同步武器位置
-            CmdSyncWeaponPosition(m_WeaponHolder.position, m_WeaponHolder.rotation);
+                CmdSyncWeaponPosition(m_WeaponHolder.position, m_WeaponHolder.rotation);
 
-            Debug.Log("拾取了武器：" + weapon.itemName);
-        }
-        else
-        {
-            Debug.Log("已有武器，无法拾取新的武器！");
+                Debug.Log("拾取了武器：" + weapon.itemName);
+            } else {
+                Debug.Log("已有武器，无法拾取新的武器！");
+            }
         }
     }
 
     public void DropWeapon()
     {
-        if (curWeapon != null)
-        {
+        if (curWeapon != null) {
             curWeapon.DetachFromPlayer();
             curWeapon = null;
 
-            // 向服务器同步武器丢弃位置
             CmdSyncWeaponPosition(Vector3.zero, Quaternion.identity);
 
             Debug.Log("丢弃了武器");
         }
     }
 
-    // 服务器命令：同步武器的位置和旋转
-    [Command]
+    [Command(requiresAuthority = false)]
     private void CmdSyncWeaponPosition(Vector3 position, Quaternion rotation)
     {
         RpcSyncWeaponPosition(position, rotation);
     }
 
-    // 客户端RPC：同步武器的位置和旋转
     [ClientRpc]
     private void RpcSyncWeaponPosition(Vector3 position, Quaternion rotation)
     {
-        if (!isLocalPlayer && curWeapon != null)
-        {
-            // 确保只有本地客户端更新自己的武器位置
+        if (!isLocalPlayer && curWeapon != null) {
             curWeapon.transform.position = position;
             curWeapon.transform.rotation = rotation;
         }
@@ -73,12 +73,9 @@ public class Hunter : NetworkBehaviour
 
     public void Shoot()
     {
-        if (curWeapon != null)
-        {
+        if (curWeapon != null) {
             curWeapon.Shoot();
-        }
-        else
-        {
+        } else {
             Debug.Log("没有持有武器，无法射击");
         }
     }
@@ -99,8 +96,7 @@ public class Hunter : NetworkBehaviour
         m_CurHealth -= damage;
         Debug.Log($"目标受到伤害，剩余生命值：{m_CurHealth}");
 
-        if (m_CurHealth <= m_MinHealth)
-        {
+        if (m_CurHealth <= m_MinHealth) {
             Die();
         }
     }
@@ -115,23 +111,18 @@ public class Hunter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 Shoot();
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.G))
             {
                 DropWeapon();
             }
         }
 
-        RectTransform rectTransform = HealthBar.GetComponent<RectTransform>();
+        RectTransform rectTransform = HealthBarFront.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(m_CurHealth / m_MaxHealth, rectTransform.sizeDelta.y);
     }
 }

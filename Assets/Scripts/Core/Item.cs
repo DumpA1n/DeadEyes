@@ -5,10 +5,13 @@ using Mirror;
 
 public abstract class Item : NetworkBehaviour
 {
-    public string itemName;  // 道具的名字
-    public string itemType;  // 道具的类型（如武器、陷阱、扫描器等）
+    public string itemName;
+    public string itemType;
+    public string itemImage;
+    [SyncVar] public bool isPickedUp = false;
+    [SyncVar] public bool colliderEnabled = true;
 
-    public abstract void Interact();  // 道具的交互方法
+    public abstract void Interact(GameObject owner);  // 道具的交互方法
 
     // 附着到玩家的某个指定位置
     public void AttachToPlayer(Transform attachPoint)
@@ -16,11 +19,19 @@ public abstract class Item : NetworkBehaviour
         transform.SetParent(attachPoint);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
+        if (isServer) {
+            isPickedUp = true;
+            colliderEnabled = false;
+        }
     }
 
     // 使道具恢复为世界物体
     public void DetachFromPlayer()
     {
         transform.SetParent(null);
+        if (isServer) {
+            isPickedUp = false;
+            colliderEnabled = true;
+        }
     }
 }

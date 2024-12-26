@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Scanner : Item
 {
-    public override void Interact()
+    public override void Interact(GameObject owner)
     {
         Debug.Log("使用扫描器扫描区域...");
         Scan();

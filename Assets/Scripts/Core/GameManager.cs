@@ -9,11 +9,7 @@ public class GameManager : NetworkBehaviour
     public bool isGameRunning = false;  // 游戏是否运行
     public float gameTimer = 300f;      // 游戏总时长，单位秒
     public float remainingTime;         // 剩余时间
-    public GameObject hunterPrefab;     // 猎人预制体
-    public GameObject hiderPrefab;      // 逃生者预制体
-    public Transform hunterSpawnPoint;  // 猎人出生点
-    public Transform hiderSpawnPoint;   // 逃生者出生点
-    public GameObject selectionUI;  // 角色选择 UI
+    public GameObject gameEndPanel;
 
     private void Awake()
     {
@@ -26,17 +22,7 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         remainingTime = gameTimer;
-        selectionUI.SetActive(true); // 显示角色选择界面
-    }
-
-    public void SelectHunter()
-    {
-        selectionUI.SetActive(false); // 隐藏角色选择界面
-    }
-
-    public void SelectHider()
-    {
-        selectionUI.SetActive(false); // 隐藏角色选择界面
+        gameEndPanel.SetActive(false);
     }
 
     void Update()
@@ -62,6 +48,7 @@ public class GameManager : NetworkBehaviour
     public void EndGame()
     {
         isGameRunning = false;
+        gameEndPanel.SetActive(true);
         Debug.Log("游戏结束！");
     }
 

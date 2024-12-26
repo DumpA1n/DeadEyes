@@ -4,67 +4,62 @@ using UnityEngine;
 
 public class Weapon : Item
 {
-    public string playerTag = "Player"; // 玩家对象的Tag
-    public GameObject bulletPrefab; // 子弹的预制件
-    public Transform firePoint; // 子弹发射位置
-    public float damage = 10f; // 武器的伤害
-    public float range = 50f; // 射线的最大射程
+    public string playerTag = "Player";
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+    public float bulletSpeed = 100f;
+    public float damage = 10f;
+    public float range = 50f;
+    
+    public float fireInterval = 0.1f;
+    private float lastFireTime = 0f;
 
-    private bool isPickedUp = false;
+    public override void Interact(GameObject player) {}
 
-    public override void Interact()
+    private void OnTriggerStay(Collider other)
     {
-        Debug.Log("使用武器射击...");
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag(playerTag) && !isPickedUp)
+        if (!isPickedUp && other.CompareTag(playerTag))
         {
             Hunter hunter = other.GetComponent<Hunter>();
-            if (hunter != null)
-            {
+            if (hunter != null) {
                 hunter.PickupWeapon(this);
-                isPickedUp = true;
-
-                GetComponent<Collider>().enabled = false; // 隐藏碰撞器防止重复拾取
             }
         }
     }
 
-    // 执行武器射击行为
     public void Shoot()
     {
-        if (bulletPrefab != null) // 使用子弹预制件
-        {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.velocity = firePoint.forward * 100.0f; // 设置子弹的速度
+        if (Time.time - lastFireTime >= fireInterval) {
+            if (bulletPrefab != null) {
+                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+                StartCoroutine(DestroyBullet(bullet, 1.5f));
+                Rigidbody rb = bullet.GetComponent<Rigidbody>();
+                if (rb != null) {
+                    rb.velocity = firePoint.forward * bulletSpeed;
+                }
             }
 
-            Debug.Log("子弹发射！");
-        }
-        // else // 使用射线
-        // {
             RaycastHit hit;
-            Debug.DrawRay(firePoint.position, firePoint.forward * range, Color.red, 1.0f); // 绘制射线
-            if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
-            {
+            Debug.DrawRay(firePoint.position, firePoint.forward * range, Color.red, 2.0f);
+            if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range)) {
                 Debug.Log("命中目标：" + hit.collider.name);
 
-                // 对命中的目标执行伤害逻辑
-                Hunter target = hit.collider.GetComponent<Hunter>();
-                if (target != null)
-                {
+                Hider target = hit.collider.GetComponentInParent<Hider>();
+                if (target != null) {
                     target.TakeDamage(damage);
                 }
             }
-            else
-            {
-                Debug.Log("未命中任何目标");
-            }
-        // }
+            // else {
+            //     Debug.Log("未命中任何目标");
+            // }
+
+            lastFireTime = Time.time;
+        }
+    }
+
+    private IEnumerator DestroyBullet(GameObject bullet, float lifespan)
+    {
+        yield return new WaitForSeconds(lifespan);
+        Destroy(bullet);
     }
 }
