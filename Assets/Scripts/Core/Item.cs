@@ -7,7 +7,7 @@ public abstract class Item : NetworkBehaviour
 {
     public string itemName;
     public string itemType;
-    public string itemImage;
+    public Sprite itemSprite;
     [SyncVar] public bool isPickedUp = false;
     [SyncVar] public bool colliderEnabled = true;
 

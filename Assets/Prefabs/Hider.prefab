@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 78532261431127942}
   m_Layer: 0
   m_Name: Hider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,8 +422,6 @@ MonoBehaviour:
   m_CurHealth: 100
   m_MinHealth: 0
   m_MaxHealth: 100
-  HealthBar: {fileID: 2857801774875241646}
-  HealthBarFront: {fileID: 282233192651292581}
   bShowHealthBar: 0
 --- !u!1 &5103190618699919739
 GameObject:

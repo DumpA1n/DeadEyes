@@ -35,8 +35,6 @@ public class Hunter : NetworkBehaviour
                 curWeapon = weapon;
                 weapon.AttachToPlayer(m_WeaponHolder);
 
-                CmdSyncWeaponPosition(m_WeaponHolder.position, m_WeaponHolder.rotation);
-
                 Debug.Log("拾取了武器：" + weapon.itemName);
             } else {
                 Debug.Log("已有武器，无法拾取新的武器！");
@@ -50,24 +48,7 @@ public class Hunter : NetworkBehaviour
             curWeapon.DetachFromPlayer();
             curWeapon = null;
 
-            CmdSyncWeaponPosition(Vector3.zero, Quaternion.identity);
-
             Debug.Log("丢弃了武器");
-        }
-    }
-
-    [Command(requiresAuthority = false)]
-    private void CmdSyncWeaponPosition(Vector3 position, Quaternion rotation)
-    {
-        RpcSyncWeaponPosition(position, rotation);
-    }
-
-    [ClientRpc]
-    private void RpcSyncWeaponPosition(Vector3 position, Quaternion rotation)
-    {
-        if (!isLocalPlayer && curWeapon != null) {
-            curWeapon.transform.position = position;
-            curWeapon.transform.rotation = rotation;
         }
     }
 
@@ -75,8 +56,6 @@ public class Hunter : NetworkBehaviour
     {
         if (curWeapon != null) {
             curWeapon.Shoot();
-        } else {
-            Debug.Log("没有持有武器，无法射击");
         }
     }
 
@@ -94,7 +73,7 @@ public class Hunter : NetworkBehaviour
     public void TakeDamage(float damage)
     {
         m_CurHealth -= damage;
-        Debug.Log($"目标受到伤害，剩余生命值：{m_CurHealth}");
+        Debug.Log($"{this.name} 受到伤害，剩余生命值：{m_CurHealth}");
 
         if (m_CurHealth <= m_MinHealth) {
             Die();
@@ -103,7 +82,7 @@ public class Hunter : NetworkBehaviour
 
     private void Die()
     {
-        Debug.Log("目标已被消灭！");
+        Debug.Log($"{this.name} 已被消灭！");
         Destroy(gameObject);
     }
 

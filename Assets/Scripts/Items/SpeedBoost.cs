@@ -11,17 +11,15 @@ public class SpeedBoost : Item
 
     IEnumerator UseSpeedBoost(GameObject owner) {
         PlayerController ctl = owner.GetComponent<PlayerController>();
-        float origMoveSpeed = ctl.m_BaseMoveSpeed;
-        ctl.m_BaseMoveSpeed = 20.0f;
+        ctl.m_SprintSpeed = 20.0f;
         yield return new WaitForSeconds(3.0f);
-        ctl.m_BaseMoveSpeed = origMoveSpeed;
-        Destroy(this);
+        ctl.m_SprintSpeed = 0.0f;
+        // Destroy(this);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!isPickedUp && other.CompareTag(playerTag))
-        {
+        if (!isPickedUp && other.CompareTag(playerTag)) {
             Hider hider = other.GetComponent<Hider>();
             if (hider != null) {
                 hider.PickupItem(this);

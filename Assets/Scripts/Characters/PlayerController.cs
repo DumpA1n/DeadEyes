@@ -13,6 +13,7 @@ public class PlayerController : NetworkBehaviour
     private Transform m_WeaponHolder;
     public float m_BaseMoveSpeed = 5f;            // 移动速度
     public float m_Acceleration = 0f;             // 加速度
+    public float m_SprintSpeed = 0f;              // 加速度
     public float m_BaseJumpHeight = 0.7f;         // 跳跃高度
     public float m_BaseRotationSpeed = 2f;        // 旋转速度
     public float m_Gravity = -9.81f;              // 重力
@@ -67,15 +68,14 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-        m_CharacterController.Move(moveDirection * (m_BaseMoveSpeed + m_Acceleration) * Time.deltaTime);
+        m_CharacterController.Move(moveDirection * (m_BaseMoveSpeed + m_Acceleration + m_SprintSpeed) * Time.deltaTime);
     }
 
     private void HandleJump()
     {
         if (m_CharacterController.isGrounded)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (Input.GetKeyDown(KeyCode.Space)) {
                 ySpeed = Mathf.Sqrt(m_BaseJumpHeight * -2f * m_Gravity);
             }
         }
