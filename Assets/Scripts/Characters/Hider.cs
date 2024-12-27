@@ -50,24 +50,22 @@ public class Hider : NetworkBehaviour
     public void TakeDamage(float damage)
     {
         m_CurHealth -= damage;
-        StopCoroutine(ShowHealthBar());
-        StartCoroutine(ShowHealthBar());
-        Debug.Log($"目标受到伤害，剩余生命值：{m_CurHealth}");
-
+        Debug.Log($"{this.name} 受到伤害，剩余生命值：{m_CurHealth}");
         if (m_CurHealth <= m_MinHealth) {
             Die();
         }
+    }
+
+    private void Die()
+    {
+        Debug.Log($"{this.name} 已被消灭！");
+        Destroy(gameObject);
     }
 
     IEnumerator ShowHealthBar() {
         bShowHealthBar = true;
         yield return new WaitForSeconds(1.0f);
         bShowHealthBar = false;
-    }
-
-    private void Die()
-    {
-        Destroy(gameObject);
     }
 
     void Update()
@@ -83,7 +81,7 @@ public class Hider : NetworkBehaviour
             {
                 if (Inventory[curChooseItem] != null)
                     UseItem();
-                else Debug.Log("没有此物体");
+                else Debug.Log("没有此物品");
             }
 
             for (int i = 0; i < Inventory.Length; i++) {

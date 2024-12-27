@@ -11,27 +11,46 @@ public abstract class Item : NetworkBehaviour
     [SyncVar] public bool isPickedUp = false;
     [SyncVar] public bool colliderEnabled = true;
 
-    public abstract void Interact(GameObject owner);  // 道具的交互方法
+    public abstract void Interact(GameObject owner);
 
-    // 附着到玩家的某个指定位置
     public void AttachToPlayer(Transform attachPoint)
     {
-        transform.SetParent(attachPoint);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        if (isServer) {
+        if (isServer)
+        {
+            transform.SetParent(attachPoint);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+
             isPickedUp = true;
             colliderEnabled = false;
+
+            RpcAttachToPlayer(attachPoint.position, attachPoint.rotation);
         }
     }
 
-    // 使道具恢复为世界物体
     public void DetachFromPlayer()
     {
-        transform.SetParent(null);
-        if (isServer) {
+        if (isServer)
+        {
+            transform.SetParent(null);
             isPickedUp = false;
             colliderEnabled = true;
+
+            RpcDetachFromPlayer();
         }
+    }
+
+    [ClientRpc]
+    private void RpcAttachToPlayer(Vector3 attachPosition, Quaternion attachRotation)
+    {
+        transform.SetParent(transform.parent);
+        transform.position = attachPosition;
+        transform.rotation = attachRotation;
+    }
+
+    [ClientRpc]
+    private void RpcDetachFromPlayer()
+    {
+        transform.SetParent(null);
     }
 }

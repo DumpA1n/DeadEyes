@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : Item
 {
-    public string playerTag = "Player";
+    public string playerTag = "Hunter";
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 100f;
@@ -30,6 +30,7 @@ public class Weapon : Item
     public void Shoot()
     {
         if (Time.time - lastFireTime >= fireInterval) {
+            GetComponent<AudioSource>().Play();
             if (bulletPrefab != null) {
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
                 StartCoroutine(DestroyBullet(bullet, 1.5f));

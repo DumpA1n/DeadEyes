@@ -140,6 +140,7 @@
     <None Include="Assets\Scripts\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Scripts\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Scripts\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\MentalDreamsAssets\SoldierSoundsPack\ReadMe!.txt" />
     <None Include="Assets\Mirror\Notice.txt" />
     <None Include="Assets\Scripts\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Materials\BlendMode.shader" />

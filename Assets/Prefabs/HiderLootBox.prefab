@@ -77,7 +77,7 @@ MonoBehaviour:
   itemSprite: {fileID: -123332814, guid: 78fa8ceea1bd8a840af16d4a0ca7fa8f, type: 3}
   isPickedUp: 0
   colliderEnabled: 1
-  playerTag: Player
+  playerTag: Hider
 --- !u!114 &5570872178187050685
 MonoBehaviour:
   m_ObjectHideFlags: 0

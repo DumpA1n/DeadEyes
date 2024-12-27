@@ -1745,7 +1745,7 @@ GameObject:
   - component: {fileID: 6301989768430290753}
   m_Layer: 0
   m_Name: HiderPrefab1
-  m_TagString: Player
+  m_TagString: Hider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

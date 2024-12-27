@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedBoost : Item
 {
-    public string playerTag = "Player";
+    public string playerTag = "Hider";
     public override void Interact(GameObject owner) {
         StartCoroutine(UseSpeedBoost(owner));
     }

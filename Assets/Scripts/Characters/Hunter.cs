@@ -9,8 +9,6 @@ public class Hunter : NetworkBehaviour
     [SyncVar] public float m_CurHealth = 100.0f;
     public float m_MinHealth = 0.0f;
     public float m_MaxHealth = 100.0f;
-    public Scanner scanner;  // 扫描器
-    public Trap trap;        // 陷阱
     private Weapon curWeapon; // 当前拾取的武器
     private Transform m_WeaponHolder;   // 武器存放的位置
     private GameObject m_FloatingInfo;
@@ -59,22 +57,10 @@ public class Hunter : NetworkBehaviour
         }
     }
 
-    public void SetTrap(Item target)
-    {
-        Debug.Log("设置陷阱：" + target.itemName);
-        trap.Activate();
-    }
-
-    public void UseScanner()
-    {
-        scanner.Scan();
-    }
-
     public void TakeDamage(float damage)
     {
         m_CurHealth -= damage;
         Debug.Log($"{this.name} 受到伤害，剩余生命值：{m_CurHealth}");
-
         if (m_CurHealth <= m_MinHealth) {
             Die();
         }

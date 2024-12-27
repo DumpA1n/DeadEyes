@@ -1,6 +1,5 @@
 using UnityEngine;
 using Mirror;
-using UnityEngine.Assertions.Must;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -25,8 +24,6 @@ public class CustomNetworkManager : NetworkManager
         } else {
             int randval1 = Random.Range(0, HiderPrefabList.Length);
             GameObject HiderPrefab = HiderPrefabList[randval1];
-            // HiderPrefab.GetComponent<CharacterController>().enabled = false;
-            // HiderPrefab.GetComponent<Collider>().enabled = false;
             int randval2 = Random.Range(0, HiderSpawnPointList.Length);
             Transform SpawnPoint = HiderSpawnPointList[randval2];
             player = Instantiate(HiderPrefab, SpawnPoint.position, SpawnPoint.rotation);

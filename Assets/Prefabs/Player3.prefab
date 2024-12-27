@@ -3103,7 +3103,7 @@ GameObject:
   - component: {fileID: 1600136890192102039}
   m_Layer: 0
   m_Name: Player3
-  m_TagString: Player
+  m_TagString: Hunter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3260,6 +3260,7 @@ MonoBehaviour:
   syncInterval: 0
   m_BaseMoveSpeed: 5
   m_Acceleration: 0
+  m_SprintSpeed: 0
   m_BaseJumpHeight: 0.5
   m_BaseRotationSpeed: 2
   m_Gravity: -5.81
@@ -3281,9 +3282,6 @@ MonoBehaviour:
   m_CurHealth: 100
   m_MinHealth: 0
   m_MaxHealth: 100
-  scanner: {fileID: 0}
-  trap: {fileID: 0}
-  HealthBar: {fileID: 775797440345937913}
 --- !u!1 &7141654946314624320
 GameObject:
   m_ObjectHideFlags: 0
