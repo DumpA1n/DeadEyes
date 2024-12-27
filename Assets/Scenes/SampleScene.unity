@@ -1304,7 +1304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7791,7 +7791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -409.98, y: 177}
+  m_AnchoredPosition: {x: -375, y: 177}
   m_SizeDelta: {x: 357.4314, y: 42.1774}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2084629834
@@ -8145,7 +8145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2843628119638485991, guid: ac092ac0fac765e4c841e191643ed3e9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.766
+      value: 6.752
       objectReference: {fileID: 0}
     - target: {fileID: 2843628119638485991, guid: ac092ac0fac765e4c841e191643ed3e9, type: 3}
       propertyPath: m_LocalRotation.w

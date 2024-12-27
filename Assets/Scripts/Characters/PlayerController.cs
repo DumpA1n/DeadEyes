@@ -39,6 +39,12 @@ public class PlayerController : NetworkBehaviour
         HandleMovement();
         HandleJump();
         HandleRotation();
+
+        if (Input.GetKeyDown(KeyCode.V)) {
+            if (Cursor.lockState == CursorLockMode.Locked)
+                Cursor.lockState = CursorLockMode.None;
+            else Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void HandleMovement()
